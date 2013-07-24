@@ -1,0 +1,31 @@
+%h1 Listing tasks
+
+%table
+  %tr
+    %th Author
+    %th Template
+    %th Notes
+    %th State
+    %th Index
+    %th Points
+    %th
+    %th
+    %th
+
+  - @tasks.each do |task|
+    %tr
+      %td= task.author.name
+      %td
+        %i{:class =>"icon-#{task.template.icon}"}
+        = task.template.name
+      %td= task.notes
+      %td= task.state.name
+      %td= task.index
+      %td= task.points
+      %td= link_to 'Show', task
+      %td= link_to 'Edit', edit_task_path(task)
+      %td= link_to 'Destroy', task, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Task', new_task_path

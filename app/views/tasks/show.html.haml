@@ -1,0 +1,26 @@
+%p#notice= notice
+
+%p
+  %h4= task.title
+%p
+  %b Author:
+  = task.author.name
+%p
+  %i{:class =>"icon-#{task.template.icon}"}
+  = task.template.name
+%p
+  %b Notes:
+  = task.notes
+%p
+  %b State:
+  = task.state.name
+%p
+  %b Index:
+  = task.index
+%p
+  %b Points:
+  = task.points
+
+= link_to 'Edit', edit_task_path(task)
+\|
+= link_to 'Back', tasks_path
