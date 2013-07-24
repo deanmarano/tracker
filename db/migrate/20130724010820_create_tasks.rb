@@ -7,6 +7,7 @@ class CreateTasks < ActiveRecord::Migration
       t.string :title
       t.integer :state_id
       t.integer :index
+      t.integer :super_task_id
       t.integer :points
 
       t.timestamps

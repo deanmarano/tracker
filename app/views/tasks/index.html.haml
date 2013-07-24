@@ -1,30 +1,15 @@
-%h1 Listing tasks
+%h3
+  - if super_task
+    %a{:href => task_path(super_task)}= super_task.title
+  - else
+    %a{:href => tasks_path} All Tasks
 
-%table
-  %tr
-    %th Author
-    %th Template
-    %th Notes
-    %th State
-    %th Index
-    %th Points
-    %th
-    %th
-    %th
-
-  - @tasks.each do |task|
-    %tr
-      %td= task.author.name
-      %td
-        %i{:class =>"icon-#{task.template.icon}"}
-        = task.template.name
-      %td= task.notes
-      %td= task.state.name
-      %td= task.index
-      %td= task.points
-      %td= link_to 'Show', task
-      %td= link_to 'Edit', edit_task_path(task)
-      %td= link_to 'Destroy', task, :method => :delete, :data => { :confirm => 'Are you sure?' }
+.span5
+  %ul#sortable.unstyled
+    - tasks.each do |task|
+      %li= render :partial => 'tasks/brief', :locals => {:task => task, :active => current_task == task}
+.span5
+  = render :partial => 'tasks/full', :locals => {:task => current_task} if current_task
 
 %br
 

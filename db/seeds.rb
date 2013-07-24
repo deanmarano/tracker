@@ -16,4 +16,6 @@ unstarted_state = State.find_or_create_by_name(name: 'unstarted', next_action_id
 chore = Template.find_or_create_by_name(name: 'chore', icon: 'cog')
 feature = Template.find_or_create_by_name(name: 'feature', icon: 'star')
 Task.find_or_create_by_title(state: unstarted_state, template: chore, title: 'Find a name', notes: 'It should be marketable.', author: dean)
-Task.find_or_create_by_title(state: unstarted_state, template: feature, title: 'Allow moving to the next state', notes: 'I should be able to click a button to finish', author: dean)
+starting_task = Task.find_or_create_by_title(state: unstarted_state, template: feature, title: 'Allow moving to the started state', notes: 'I should be able to click a button to start', author: dean)
+Task.find_or_create_by_title(state: unstarted_state, template: feature, title: 'create method to find next state', notes: 'template.next_states should return next possible states', author: dean, :super_task => starting_task)
+Task.find_or_create_by_title(state: unstarted_state, template: feature, title: 'Allow moving to the finished state', notes: 'I should be able to click a button to finish', author: dean)

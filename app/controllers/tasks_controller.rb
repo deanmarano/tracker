@@ -4,14 +4,21 @@ class TasksController < ApplicationController
   # GET /tasks
   # GET /tasks.json
   def index
-    @tasks = Task.all
+    tasks = Task.where(:super_task_id => nil).order(:index)
+    render :index, :locals => { :tasks => tasks, :current_task => nil, :super_task => nil}
   end
 
   # GET /tasks/1
   # GET /tasks/1.json
   def show
     task = Task.find(params[:id])
-    render :show, :locals => { :task => task }
+    if task.super_task
+      sibling_tasks = task.super_task.sub_tasks.order(:index)
+      super_task = task.super_task
+    else
+      sibling_tasks = Task.where(:super_task_id => nil).order(:index)
+    end
+    render :index, :locals => { :tasks => sibling_tasks, :current_task => task, :super_task => super_task }
   end
 
   # GET /tasks/new

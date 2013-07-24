@@ -1,0 +1,21 @@
+.task.brief.well.well-small{:class => defined?(active) && active ? 'active' : nil}
+  %h4
+    %i{:class =>"icon-#{task.template.icon}"}
+    = link_to task.title, task
+  - owners = task.owners.map(&:name).join(', ')
+  %p= owners.present? ? owners : 'Unclaimed'
+  %p.pull-left
+    - task.next_actions.each do |action|
+      %a.btn= action.name
+  %p.pull-right
+    = task.state.name
+    |
+    - if task.points
+      - task.points.times do
+        %i.icon-star
+      - (task.max_points - task.points).times do
+        %i.icon-star-empty
+    - else
+      Unestimated
+    = link_to '', task, :method => :delete, :class => 'icon-trash'
+  .clearfix

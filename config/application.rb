@@ -10,6 +10,7 @@ require "haml"
 Haml.init_rails(binding)
 require 'jquery-rails'
 require 'twitter-bootstrap-rails'
+require 'jquery-ui-sass-rails'
 # require "rails/test_unit/railtie"
 
 # Require the gems listed in Gemfile, including any gems

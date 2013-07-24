@@ -11,12 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130724023305) do
+ActiveRecord::Schema.define(version: 20130724032855) do
 
   create_table "actions", force: true do |t|
     t.string   "cause"
     t.string   "name"
     t.integer  "resulting_state_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "ownerships", force: true do |t|
+    t.integer  "task_id"
+    t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -35,6 +42,7 @@ ActiveRecord::Schema.define(version: 20130724023305) do
     t.string   "title"
     t.integer  "state_id"
     t.integer  "index"
+    t.integer  "super_task_id"
     t.integer  "points"
     t.datetime "created_at"
     t.datetime "updated_at"
