@@ -2,14 +2,9 @@
   %h3 Tracker
   %ul.nav.nav-list
     %li.nav-header Favorites
-    %li.active
-      %a{:href => "#"} Link
-    %li
-      %a{:href => "#"} Link
-    %li
-      %a{:href => "#"} Link
-    %li
-      %a{:href => "#"} Link
+    - current_user.favorited_tasks.limit(10).each do |task|
+      %li
+        %a{:href => task_path(task)}= task.title.truncate(12)
     %li.nav-header Owner On
     - current_user.owned_tasks.limit(10).each do |task|
       %li
