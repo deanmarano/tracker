@@ -1,5 +1,9 @@
 Tracker::Application.routes.draw do
-  resources :tasks
+  resources :tasks do
+    member do
+      post :claim
+    end
+  end
   post 'tasks/:id/:state_transition' => 'tasks#state_transition', as: :state_transition
 
   resources :users

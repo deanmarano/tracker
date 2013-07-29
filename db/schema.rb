@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(version: 20130724032855) do
 
   create_table "templates", force: true do |t|
     t.integer  "parent_task_id"
+    t.integer  "initial_state_id"
     t.string   "name"
     t.string   "icon"
     t.string   "point_scale"

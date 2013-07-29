@@ -9,9 +9,13 @@
 %p
   %b Notes:
   = task.notes
+- if task.template.has_acceptance_criteria?
+  %p
+    %b AC:
+    = task.acceptance_criteria
 %p
   %b State:
-  = task.state.name
+  = task.current_state.name
 %p
   %b Points:
   = task.points
@@ -19,8 +23,6 @@
   %b Tasks:
   - task.sub_tasks.each do |sub_task|
     = render :partial => 'tasks/brief', :locals => {:task => sub_task}
-
-
 
 = link_to 'Edit', edit_task_path(task)
 \|

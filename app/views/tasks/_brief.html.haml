@@ -2,13 +2,18 @@
   %h4
     %i{:class =>"icon-#{task.template.icon}"}
     = link_to task.title, task
-  - owners = task.owners.map(&:name).join(', ')
-  %p= owners.present? ? owners : 'Unclaimed'
+  - owners = task.owners
+  %p.pull-left= owners.present? ? owners.map(&:name).join(', ') : 'Unclaimed'
+  - if !owners.include?(current_user)
+    %p.pull-left
+      |
+      = link_to 'Claim', claim_task_path(task), :method => :post
+  .clearfix
   %p.pull-left
     - task.next_actions.each do |action|
       %a.btn(href="/tasks/#{task.id}/#{action.name}" data-method="post")= action.name
   %p.pull-right
-    = task.state.name
+    = task.current_state.name
     |
     - if task.points
       - task.points.times do

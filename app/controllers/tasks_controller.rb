@@ -1,22 +1,29 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: [:edit, :update, :destroy, :state_transition]
+  before_action :set_task, only: [:edit, :update, :destroy, :state_transition, :claim]
 
   def index
     current_user.root_task
     tasks = Task.where(:super_task_id => current_user.root_task).order(:index)
-    render :index, :locals => { :tasks => tasks, :current_task => nil, :super_task => current_user.root_task}
+    render :index, :locals => { :tasks => tasks, :current_task => nil, :super_task => current_user.root_task }
   end
 
   def show
     task = Task.find(params[:id])
+    if !task.super_task
+      redirect_to tasks_path
+      return
+    end
+
     sibling_tasks = task.super_task.sub_tasks.order(:index)
     super_task = task.super_task
+
     render :index, :locals => { :tasks => sibling_tasks, :current_task => task, :super_task => super_task }
   end
 
   # GET /tasks/new
   def new
-    @task = Task.new
+    super_task = Task.find(params[:super_task_id])
+    @task = Task.new(:author => current_user, :super_task => super_task, :template => super_task.all_sub_templates.first)
   end
 
   # GET /tasks/1/edit
@@ -64,13 +71,22 @@ class TasksController < ApplicationController
   def state_transition
     next_action = @task.next_actions.detect { |action| action.name == params[:state_transition] }
     if next_action
-      @task.update_attributes(:state => next_action.resulting_state)
+      @task.update(:state => next_action.resulting_state)
       flash[:notice] = "Task #{@task.state.name}"
       redirect_to task_path(@task)
     else
       flash[:error] = "You can't go to the state."
       redirect_to :back
     end
+  end
+
+  def claim
+    if @task.add_owner(current_user)
+      flash[:notice] = "Ownership added"
+    else
+      flash[:notice] = "There was an issue adding ownership."
+    end
+    redirect_to task_path(@task)
   end
 
   private

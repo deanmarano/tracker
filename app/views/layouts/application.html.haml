@@ -11,38 +11,7 @@
       = render 'shared/flash_messages'
       .row-fluid
         .span2
-          .well.sidebar-nav
-            %h3 Tracker
-            %ul.nav.nav-list
-              %li.nav-header Favorites
-              %li.active
-                %a{:href => "#"} Link
-              %li
-                %a{:href => "#"} Link
-              %li
-                %a{:href => "#"} Link
-              %li
-                %a{:href => "#"} Link
-              %li.nav-header Owner On
-              %li
-                %a{:href => "#"} Link
-              %li
-                %a{:href => "#"} Link
-              %li
-                %a{:href => "#"} Link
-              %li
-                %a{:href => "#"} Link
-              %li
-                %a{:href => "#"} Link
-              %li
-                %a{:href => "#"} Link
-              %li.nav-header Author of
-              %li
-                %a{:href => "#"} Link
-              %li
-                %a{:href => "#"} Link
-              %li
-                %a{:href => "#"} Link
+          = render 'shared/sidebar'
         .span10
           = yield
   %hr/

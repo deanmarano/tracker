@@ -11,8 +11,12 @@
     = @task.author.name
   .field
     = f.label :template_id
-    - template_options = @task.super_task.sub_templates.map { |t| [t.name, t.id] }
-    = f.select(:template_id, options_for_select(template_options))
+    - template_options = @task.super_task.all_sub_templates.map { |t| [t.name, t.id] }
+    = f.select('template_id', template_options, {})
+  .field
+    = f.label :state_id
+    - state_options = @task.template.possible_states.map { |s| [s.name, s.id] }
+    = f.select('state_id', state_options, {})
   .field
     = f.label :notes
     = f.text_area :notes
