@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 20130724032855) do
     t.integer  "author_id"
     t.integer  "template_id"
     t.text     "notes"
+    t.text     "acceptance_criteria"
     t.string   "title"
     t.integer  "state_id"
     t.integer  "index"
@@ -49,6 +50,7 @@ ActiveRecord::Schema.define(version: 20130724032855) do
   end
 
   create_table "templates", force: true do |t|
+    t.integer  "parent_task_id"
     t.string   "name"
     t.string   "icon"
     t.string   "point_scale"

@@ -1,0 +1,5 @@
+- [:notice, :error, :alert].each do |level|
+  - unless flash[level].blank?
+    .alert(class="#{flash_class(level)}")
+      %a.close(href='#') x
+      %p= flash[level]

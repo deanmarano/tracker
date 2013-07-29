@@ -1,23 +1,16 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: [:edit, :update, :destroy]
+  before_action :set_task, only: [:edit, :update, :destroy, :state_transition]
 
-  # GET /tasks
-  # GET /tasks.json
   def index
-    tasks = Task.where(:super_task_id => nil).order(:index)
-    render :index, :locals => { :tasks => tasks, :current_task => nil, :super_task => nil}
+    current_user.root_task
+    tasks = Task.where(:super_task_id => current_user.root_task).order(:index)
+    render :index, :locals => { :tasks => tasks, :current_task => nil, :super_task => current_user.root_task}
   end
 
-  # GET /tasks/1
-  # GET /tasks/1.json
   def show
     task = Task.find(params[:id])
-    if task.super_task
-      sibling_tasks = task.super_task.sub_tasks.order(:index)
-      super_task = task.super_task
-    else
-      sibling_tasks = Task.where(:super_task_id => nil).order(:index)
-    end
+    sibling_tasks = task.super_task.sub_tasks.order(:index)
+    super_task = task.super_task
     render :index, :locals => { :tasks => sibling_tasks, :current_task => task, :super_task => super_task }
   end
 
@@ -60,13 +53,23 @@ class TasksController < ApplicationController
     end
   end
 
-  # DELETE /tasks/1
-  # DELETE /tasks/1.json
   def destroy
     @task.destroy
     respond_to do |format|
       format.html { redirect_to tasks_url }
       format.json { head :no_content }
+    end
+  end
+
+  def state_transition
+    next_action = @task.next_actions.detect { |action| action.name == params[:state_transition] }
+    if next_action
+      @task.update_attributes(:state => next_action.resulting_state)
+      flash[:notice] = "Task #{@task.state.name}"
+      redirect_to task_path(@task)
+    else
+      flash[:error] = "You can't go to the state."
+      redirect_to :back
     end
   end
 

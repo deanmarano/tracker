@@ -8,19 +8,18 @@
 
   .field
     = f.label :author_id
-    = f.number_field :author_id
+    = @task.author.name
   .field
     = f.label :template_id
-    = f.number_field :template_id
+    - template_options = @task.super_task.sub_templates.map { |t| [t.name, t.id] }
+    = f.select(:template_id, options_for_select(template_options))
   .field
     = f.label :notes
     = f.text_area :notes
-  .field
-    = f.label :state_id
-    = f.number_field :state_id
-  .field
-    = f.label :index
-    = f.number_field :index
+  -if @task.template.has_acceptance_criteria?
+    .field
+      = f.label :acceptance_criteria
+      = f.text_area :acceptance_criteria
   .field
     = f.label :points
     = f.number_field :points

@@ -6,7 +6,7 @@
   %p= owners.present? ? owners : 'Unclaimed'
   %p.pull-left
     - task.next_actions.each do |action|
-      %a.btn= action.name
+      %a.btn(href="/tasks/#{task.id}/#{action.name}" data-method="post")= action.name
   %p.pull-right
     = task.state.name
     |

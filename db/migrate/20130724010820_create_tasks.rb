@@ -4,6 +4,7 @@ class CreateTasks < ActiveRecord::Migration
       t.integer :author_id
       t.integer :template_id
       t.text :notes
+      t.text :acceptance_criteria
       t.string :title
       t.integer :state_id
       t.integer :index

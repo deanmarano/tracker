@@ -1,15 +1,16 @@
 %h3
-  - if super_task
-    %a{:href => task_path(super_task)}= super_task.title
-  - else
-    %a{:href => tasks_path} All Tasks
+  %a{:href => task_path(super_task)}= super_task.title
 
 .span5
   %ul#sortable.unstyled
     - tasks.each do |task|
       %li= render :partial => 'tasks/brief', :locals => {:task => task, :active => current_task == task}
 .span5
-  = render :partial => 'tasks/full', :locals => {:task => current_task} if current_task
+  - if current_task
+    = render :partial => 'tasks/full', :locals => {:task => current_task}
+  - else
+    Pick a task from the left!
+
 
 %br
 
